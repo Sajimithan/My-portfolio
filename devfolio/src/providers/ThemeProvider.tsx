@@ -1,0 +1,13 @@
+"use client";
+
+import * as React from "react";
+import { ThemeProvider as NextThemesProvider } from "next-themes";
+import { type ThemeProviderProps } from "next-themes/dist/types";
+
+/**
+ * Provides theme context to the application, enabling light/dark mode functionality.
+ * It wraps the NextThemesProvider for seamless integration with Next.js.
+ */
+export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
+  return <NextThemesProvider {...props}>{children}</NextThemesProvider>;
+}
