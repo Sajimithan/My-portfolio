@@ -11,17 +11,45 @@ import { siteConfig } from "@/constants/site";
 export default function ContactSection() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [success, setSuccess] = useState(false);
+    const [error, setError] = useState("");
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setIsSubmitting(true);
-        // Simulate API call
-        await new Promise((resolve) => setTimeout(resolve, 1500));
-        setIsSubmitting(false);
-        setSuccess(true);
-        (e.target as HTMLFormElement).reset();
-        setTimeout(() => setSuccess(false), 5000);
+        setError("");
+
+        const formData = new FormData(e.currentTarget);
+        const data = {
+            name: formData.get("name") as string,
+            email: formData.get("email") as string,
+            message: formData.get("message") as string,
+        };
+
+        try {
+            const response = await fetch("/api/contact", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(data),
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+                setSuccess(true);
+                (e.target as HTMLFormElement).reset();
+                setTimeout(() => setSuccess(false), 5000);
+            } else {
+                setError(result.error || "Something went wrong");
+            }
+        } catch (err) {
+            setError("Failed to send message. Please try again.");
+        } finally {
+            setIsSubmitting(false);
+        }
     };
+
 
     return (
         <AnimatedSection id="contact" className="container">
@@ -69,13 +97,13 @@ export default function ContactSection() {
                                 <label htmlFor="name" className="text-sm font-medium leading-none">
                                     Name
                                 </label>
-                                <Input id="name" placeholder="John Doe" required />
+                                <Input id="name" name="name" placeholder="John Doe" required />
                             </div>
                             <div className="space-y-2">
                                 <label htmlFor="email" className="text-sm font-medium leading-none">
                                     Email
                                 </label>
-                                <Input id="email" type="email" placeholder="john@example.com" required />
+                                <Input id="email" name="email" type="email" placeholder="john@example.com" required />
                             </div>
                         </div>
                         <div className="space-y-2">
@@ -84,6 +112,7 @@ export default function ContactSection() {
                             </label>
                             <Textarea
                                 id="message"
+                                name="message"
                                 placeholder="How can I help you?"
                                 className="min-h-[120px]"
                                 required
@@ -95,6 +124,11 @@ export default function ContactSection() {
                         {success && (
                             <p className="text-center text-sm font-medium text-green-500">
                                 Message sent successfully!
+                            </p>
+                        )}
+                        {error && (
+                            <p className="text-center text-sm font-medium text-red-500">
+                                {error}
                             </p>
                         )}
                     </form>
