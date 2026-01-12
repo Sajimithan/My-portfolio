@@ -18,8 +18,8 @@ export default function ProjectsSection() {
             </div>
             <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {siteConfig.projects.map((project, index) => (
-                    <Card key={index} className="flex flex-col overflow-hidden">
-                        <div className="aspect-video w-full bg-muted relative overflow-hidden group">
+                    <Card key={index} className="flex flex-col overflow-hidden glow-card hover:border-primary/50 transition-all duration-300">
+                        <div className="aspect-video w-full bg-gradient-to-br from-primary/20 via-secondary/20 to-accent/20 relative overflow-hidden group">
                             {/* Image placeholder for now */}
                             <div className="absolute inset-0 flex items-center justify-center text-muted-foreground transition-transform duration-300 group-hover:scale-110">
                                 <span className="text-sm font-medium">{project.title} Preview</span>
