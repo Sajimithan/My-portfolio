@@ -8,7 +8,7 @@ import { AnimatedSection } from "../shared/AnimatedSection";
 export default function HeroSection() {
     return (
         <AnimatedSection className="container flex min-h-[calc(100vh-5rem)] flex-col items-center justify-center text-center">
-            <div className="relative mb-8 h-40 w-40 overflow-hidden rounded-full border-4 border-primary/20 shadow-xl">
+            <div className="relative mb-8 h-40 w-40 overflow-hidden rounded-full border-4 border-primary/30 shadow-2xl ring-4 ring-primary/10">
                 <img
                     src={siteConfig.profileImage}
                     alt={siteConfig.name}
@@ -16,9 +16,9 @@ export default function HeroSection() {
                 />
             </div>
             <h1 className="text-4xl font-extrabold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl">
-                Hi, I&apos;m {siteConfig.name}
+                Hi, I&apos;m <span className="gradient-text">{siteConfig.name}</span>
             </h1>
-            <p className="mt-4 max-w-[700px] text-lg text-muted-foreground sm:text-xl">
+            <p className="mt-6 max-w-[700px] text-lg text-muted-foreground sm:text-xl leading-relaxed">
                 A {siteConfig.title.split('|')[1]?.trim() || "Software Engineer"} specializing in building modern, responsive, and scalable web applications.
             </p>
 
